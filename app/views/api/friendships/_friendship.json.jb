@@ -1,0 +1,6 @@
+{
+  id: friendship.id,
+  requestor_id: friendship.requestor_id,
+  requestee_id: friendship.requestee_id,
+  status: friendship.status
+}

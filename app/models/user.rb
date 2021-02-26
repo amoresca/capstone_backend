@@ -27,6 +27,13 @@ class User < ApplicationRecord
     @pending_friendships = Friendship.where("requestee_id = ? AND status = ?", id, "pending")
   end
 
+  def pending_friends
+    @pending_friends = pending_friendships.map do |friendship|
+      friendship.requestor
+    end
+    @pending_friends
+  end
+
   def borrowed_items
     borrow_requests.where("status = ?", "accepted")
   end

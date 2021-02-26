@@ -11,7 +11,9 @@ Rails.application.routes.draw do
     post "/sessions" => "sessions#create"
 
     # Friendships
-    
+    get "/friendships" => "friendships#index"
+    post "/friendships" => "friendships#create"
+    patch "/friendships/:id" => "friendships#update"
 
     # Items
     get "/items" => "items#index"
