@@ -10,5 +10,16 @@ Rails.application.routes.draw do
     # Sessions
     post "/sessions" => "sessions#create"
 
+    # Friendships
+    
+
+    # Items
+    get "/items" => "items#index"
+    post "/items" => "items#create"
+    patch "/items/:id" => "items#update"
+    delete "/items/:id" => "items#destroy"
+
+    # Categories
+    get "/categories" => "categories#index"
   end
 end

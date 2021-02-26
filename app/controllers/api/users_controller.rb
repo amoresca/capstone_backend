@@ -42,12 +42,12 @@ class Api::UsersController < ApplicationController
       @user.image_url = params[:image_url] || @user.image_url
 
       if @user.save
-        render "show.json.jb"
+        render "update.json.jb"
       else
-        render json: { errors: user.errors.full_messages }, status: :bad_request
+        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
       end
     else
-      render json: { errors: "unauthorized" }, status: :unauthorized
+      render json: {}, status: :unauthorized
     end
   end
 
@@ -57,7 +57,7 @@ class Api::UsersController < ApplicationController
       @user.destroy
       render json: { message: "User successfully deleted "}
     else
-      render json: { }, status: :unauthorized
+      render json: {}, status: :unauthorized
     end
   end
 

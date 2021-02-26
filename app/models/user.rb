@@ -4,11 +4,23 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :first_name, :last_name, presence: true
   
-  has_many :items
-  has_many :borrow_requests, class_name: "BorrowRequest", foreign_key: "requestor_id"
+  has_many :items, dependent: :destroy
+  has_many :borrow_requests, class_name: "BorrowRequest", foreign_key: "requestor_id", dependent: :destroy
 
+  # NOTE: Need to add equivalent for dependent: :destroy
   def friendships
     @friendships = Friendship.where("requestor_id = ? AND status = ? OR requestee_id = ? AND status = ?", id, "accepted", id, "accepted")
+  end
+
+  def friends
+    @friends = friendships.map do |friendship|
+      if friendship.requestor_id == id
+        friendship.requestee
+      else
+        friendship.requestor
+      end
+    end
+    @friends
   end
 
   def pending_friendships
