@@ -1,0 +1,10 @@
+json = {
+  borrow_requests: @borrow_requests.map do |borrow_request|
+    render partial: "borrow_request.json.jb", locals: { borrow_request: borrow_request }
+  end
+}
+json[:friend_requests] = @friend_requests.map do |friend_request|
+  render partial: "api/friendships/friendship.json.jb", locals: { friendship: friend_request}
+end
+
+json

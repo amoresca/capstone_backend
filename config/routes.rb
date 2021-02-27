@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/friendships" => "friendships#index"
     post "/friendships" => "friendships#create"
     patch "/friendships/:id" => "friendships#update"
+    delete "/friendships/:id" => "friendships#destroy"
 
     # Items
     get "/items" => "items#index"
@@ -23,5 +24,10 @@ Rails.application.routes.draw do
 
     # Categories
     get "/categories" => "categories#index"
+
+    # BorrowRequests
+    get "/borrow-requests" => "borrow_requests#index"
+    post "/borrow-requests" => "borrow_requests#create"
+    patch "/borrow-requests/:id" => "borrow_requests#update"
   end
 end

@@ -1,0 +1,1 @@
+render partial: "borrow_request.json.jb", locals: { borrow_request: @borrow_request }
