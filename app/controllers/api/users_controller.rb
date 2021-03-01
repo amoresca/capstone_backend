@@ -55,8 +55,9 @@ class Api::UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if current_user == @user
       @user.destroy
-      @user.friendships.destroy_all
-      render json: { message: "User successfully deleted "}
+      all_friendships = Friendship.where("requestee_id = ? OR requestor_id = ?", @user.id, @user.id)
+      all_friendships.destroy_all
+      render json: { message: "User successfully deleted." }
     else
       render json: {}, status: :unauthorized
     end
