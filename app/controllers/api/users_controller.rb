@@ -15,7 +15,7 @@ class Api::UsersController < ApplicationController
       username: params[:username],
       first_name: params[:first_name],
       last_name: params[:last_name],
-      image_url: params[:image_url],
+      image_url: params[:image_url]
     )
     if user.save
       render json: { message: "User created successfully" }, status: :created
@@ -55,6 +55,7 @@ class Api::UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if current_user == @user
       @user.destroy
+      @user.friendships.destroy_all
       render json: { message: "User successfully deleted "}
     else
       render json: {}, status: :unauthorized

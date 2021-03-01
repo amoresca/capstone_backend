@@ -29,5 +29,6 @@ Rails.application.routes.draw do
     get "/borrow-requests" => "borrow_requests#index"
     post "/borrow-requests" => "borrow_requests#create"
     patch "/borrow-requests/:id" => "borrow_requests#update"
+    delete "/borrow-requests/:id" => "borrow_requests#destroy"
   end
 end

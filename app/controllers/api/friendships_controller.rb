@@ -38,7 +38,7 @@ class Api::FriendshipsController < ApplicationController
     @friendship = Friendship.find(params[:id])
     if current_user == @friendship.requestor || current_user == @friendship.requestee
       @friendship.destroy
-      render json: { message: "Friendship successfully deleted " }
+      render json: { message: "Friendship successfully deleted" }
     else
       render json: {}, status: :unauthorized
     end

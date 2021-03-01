@@ -26,5 +26,25 @@ class Api::BorrowRequestsController < ApplicationController
 
   def update
     @borrow_request = BorrowRequest.find(params[:id])
+    if current_user == @borrow_request.item.user
+      @borrow_request.status = params[:status] || @borrow_request.status
+      if @borrow_request.save 
+        render json: { message: "Borrow request #{@borrow_request.status}."}
+      else
+        render json: { errors: @borrow_request.errors.full_messages }, status: :unprocessable_entity
+      end
+    else
+      render json: {}, status: :unauthorized
+    end
+  end
+
+  def destroy
+    @borrow_request = BorrowRequest.find(params[:id])
+    if current_user == @borrow_request.item.user
+      @borrow_request.destroy
+      render json: { message: "Borrow request successfully deleted" }
+    else
+      render json: {}, status: :unauthorized
+    end
   end
 end
