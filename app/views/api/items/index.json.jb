@@ -1,3 +1,6 @@
 @items.map do |item|
-  render partial: "item.json.jb", locals: { item: item }
+  item_json = render partial: "item.json.jb", locals: { item: item }
+  item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: item.category }
+  item_json[:user] = render partial: "api/users/user.json.jb", locals: { user: item.user }
+  item_json
 end

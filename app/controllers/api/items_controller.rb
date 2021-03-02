@@ -28,7 +28,7 @@ class Api::ItemsController < ApplicationController
 
   def update
     @item = Item.find(params[:id])
-    if current_user == @item.user
+    if current_user.id == @item.user_id
       @item.name = params[:name] || @item.name
       @item.image_url = params[:image_url] || @item.image_url
       @item.category_id = params[:category_id] || @item.category_id
