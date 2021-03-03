@@ -23,9 +23,9 @@ class Api::FriendshipsController < ApplicationController
   def update
     @friendship = Friendship.find(params[:id])
     if current_user == @friendship.requestee
-      @friendship.status = params[:status] || @friendship.status
+      @friendship.status = "accepted"
       if @friendship.save 
-        render json: { message: "Friend request #{@friendship.status}."}
+        render json: { message: "Friend request accepted."}
       else
         render json: { errors: @friendship.errors.full_messages }, status: :unprocessable_entity
       end

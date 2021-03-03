@@ -46,7 +46,7 @@ class Api::ItemsController < ApplicationController
 
   def destroy
     @item = Item.find(params[:id])
-    if current_user == @item.user
+    if current_user.id == @item.user_id
       @item.destroy
       render json: { message: "Item successfully deleted "}
     else

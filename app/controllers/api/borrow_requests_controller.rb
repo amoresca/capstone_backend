@@ -29,6 +29,11 @@ class Api::BorrowRequestsController < ApplicationController
     if current_user == @borrow_request.item.user
       @borrow_request.status = params[:status] || @borrow_request.status
       if @borrow_request.save 
+        if @borrow_request.status == "accepted"
+          @borrow_request.item.available = false
+        elsif @borrow_request.status == "returned"
+          @borrow_request.item.available = true
+        end
         render json: { message: "Borrow request #{@borrow_request.status}."}
       else
         render json: { errors: @borrow_request.errors.full_messages }, status: :unprocessable_entity

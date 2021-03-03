@@ -1,7 +1,10 @@
 json = render partial: "user.json.jb", locals: { user: @user }
 
-if current_user == @user || current_user.friends.include?(@user)
+if current_user.friends.include?(@user)
   json[:friends] = true
+end
+
+if current_user == @user || current_user.friends.include?(@user)
   json[:items] = @user.items.map do |item|
     item_json = render partial: "api/items/item.json.jb", locals: { item: item }
     item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: item.category }
@@ -9,6 +12,16 @@ if current_user == @user || current_user.friends.include?(@user)
   end
 else
   json[:friends] = false
+end
+
+if current_user == @user
+  json[:email] = @user.email
+  json[:borrowed_items] = @borrowed_items.map do |borrow_request|
+    item_json = render partial: "api/items/item.json.jb", locals: { item: borrow_request.item }
+    item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: borrow_request.item.category }
+    item_json[:user] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.item.user }
+    item_json
+  end
 end
 
 json

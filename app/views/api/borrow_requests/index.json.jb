@@ -3,12 +3,14 @@ json = {
     borrow_json = render partial: "borrow_request.json.jb", locals: { borrow_request: borrow_request }
     borrow_json[:item] = render partial: "api/items/item.json.jb", locals: { item: borrow_request.item }
     borrow_json[:item][:category] = render partial: "api/categories/category.json.jb", locals: { category: borrow_request.item.category }
-    borrow_json[:requestor] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.item.user }
+    borrow_json[:requestor] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.requestor }
     borrow_json
   end
 }
 json[:friend_requests] = @friend_requests.map do |friend_request|
-  render partial: "api/friendships/friendship.json.jb", locals: { friendship: friend_request}
+  friend_json = render partial: "api/friendships/friendship.json.jb", locals: { friendship: friend_request }
+  friend_json[:requestor] = render partial: "api/users/user.json.jb", locals: { user: friend_request.requestor }
+  friend_json
 end
 
 json

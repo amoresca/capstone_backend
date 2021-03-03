@@ -26,6 +26,7 @@ class Api::UsersController < ApplicationController
 
   def show
     @user = User.find_by(username: params[:username])
+    @borrowed_items = BorrowRequest.where("requestor_id = ?", current_user.id)
     render "show.json.jb"
   end
 
