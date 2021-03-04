@@ -31,8 +31,10 @@ class Api::BorrowRequestsController < ApplicationController
       if @borrow_request.save 
         if @borrow_request.status == "accepted"
           @borrow_request.item.available = false
+          @borrow_request.item.save
         elsif @borrow_request.status == "returned"
           @borrow_request.item.available = true
+          @borrow_request.item.save
         end
         render json: { message: "Borrow request #{@borrow_request.status}."}
       else

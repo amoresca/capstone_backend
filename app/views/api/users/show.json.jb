@@ -7,6 +7,11 @@ end
 if current_user == @user || current_user.friends.include?(@user)
   json[:items] = @user.items.map do |item|
     item_json = render partial: "api/items/item.json.jb", locals: { item: item }
+    if item_json[:available] == false
+      borrow_request = item.borrow_requests.find_by(status: "accepted")
+      item_json[:borrow_request] = render partial: "api/borrow_requests/borrow_request.json.jb", locals: { borrow_request: borrow_request }
+      item_json[:borrow_request][:user] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.requestor }
+    end
     item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: item.category }
     item_json
   end
