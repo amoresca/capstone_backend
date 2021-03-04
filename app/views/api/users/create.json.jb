@@ -1,0 +1,3 @@
+json = render partial: "user.json.jb", locals: { user: @user }
+json[:email] = @user.email
+json

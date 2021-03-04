@@ -18,7 +18,7 @@ class Api::UsersController < ApplicationController
       image_url: params[:image_url]
     )
     if @user.save
-      render "show.json.jb", status: :created
+      render "create.json.jb", status: :created
     else
       render json: { errors: @user.errors.full_messages }, status: :bad_request
     end
