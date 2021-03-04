@@ -36,6 +36,7 @@ class Api::UsersController < ApplicationController
     if current_user == @user
       if params[:password]
         @user.password = params[:password]
+        @user.password_confirmation = params[:password_confirmation]
       end
       @user.email = params[:email] || @user.email
       @user.first_name = params[:first_name] || @user.first_name
