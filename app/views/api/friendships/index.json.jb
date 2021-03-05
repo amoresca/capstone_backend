@@ -1,3 +1,6 @@
-@friends.map do |friend|
-  render partial: "api/users/user.json.jb", locals: { user: friend }
+json = @friendships.map do |friendship|
+  friend = friendship.requestor == current_user ? friendship.requestee : friendship.requestor
+  friendship_json = render partial: "api/users/user.json.jb", locals: { user: friend }
+  friendship_json[:friendship_id] = friendship.id
+  friendship_json
 end

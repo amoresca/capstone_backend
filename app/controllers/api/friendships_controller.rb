@@ -3,7 +3,7 @@ class Api::FriendshipsController < ApplicationController
   before_action :authenticate_user
   
   def index
-    @friends = current_user.friends
+    @friendships = current_user.friendships
     render "index.json.jb"
   end
 
