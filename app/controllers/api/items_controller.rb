@@ -8,6 +8,7 @@ class Api::ItemsController < ApplicationController
     friends.each do |friend|
       @items += friend.items
     end
+    @items.sort_by! { |k| k["name"] }
     render "index.json.jb"
   end
 

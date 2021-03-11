@@ -15,6 +15,7 @@ if current_user == @user || current_user.friends.include?(@user)
     item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: item.category }
     item_json
   end
+  json[:items].sort_by! { |k| k[:name] }
 else
   json[:friends] = false
 end
@@ -27,6 +28,7 @@ if current_user == @user
     item_json[:user] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.item.user }
     item_json
   end
+  json[:borrowed_items].sort_by! { |k| k[:name] }
 end
 
 json

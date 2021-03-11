@@ -3,7 +3,7 @@ class Api::FriendshipsController < ApplicationController
   before_action :authenticate_user
   
   def index
-    @friendships = current_user.friendships
+    @friendships = current_user.friendships.sort_by { |k| k[:first_name] }
     render "index.json.jb"
   end
 
