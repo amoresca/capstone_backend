@@ -21,6 +21,9 @@ class Api::ItemsController < ApplicationController
       available: true
     )
     if @item.save
+      eval(params[:tag_ids]).each do |tag|
+        ItemTag.create(item_id: @item.id, tag_id: tag);
+      end
       render "show.json.jb"
     else
       render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity

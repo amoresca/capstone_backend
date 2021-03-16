@@ -1,3 +1,6 @@
 json = render partial: "item.json.jb", locals: { item: @item }
 json[:category] = render partial: "api/categories/category.json.jb", locals: { category: @item.category }
+json[:tags] = @item.tags.map do |tag|
+  render partial: "api/tags/tag.json.jb", locals: { tag: tag }
+end
 json

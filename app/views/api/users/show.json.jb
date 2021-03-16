@@ -1,9 +1,12 @@
+# General user information
 json = render partial: "user.json.jb", locals: { user: @user }
 
+# Set friends boolean to true if friends with current user
 if current_user.friends.include?(@user)
   json[:friends] = true
 end
 
+# Show items if current user OR current user's friend
 if current_user == @user || current_user.friends.include?(@user)
   json[:items] = @user.items.map do |item|
     item_json = render partial: "api/items/item.json.jb", locals: { item: item }
@@ -13,13 +16,18 @@ if current_user == @user || current_user.friends.include?(@user)
       item_json[:borrow_request][:user] = render partial: "api/users/user.json.jb", locals: { user: borrow_request.requestor }
     end
     item_json[:category] = render partial: "api/categories/category.json.jb", locals: { category: item.category }
+    item_json[:tags] = item.tags.map do |tag|
+      render partial: "api/tags/tag.json.jb", locals: { tag: tag }
+    end
     item_json
   end
   json[:items].sort_by! { |k| k[:name] }
 else
+  # Set friends boolean to false if not friends with current user
   json[:friends] = false
 end
 
+# Show borrowed items and email address if current user
 if current_user == @user
   json[:email] = @user.email
   json[:borrowed_items] = @borrowed_items.map do |borrow_request|
