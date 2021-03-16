@@ -21,8 +21,8 @@ class Api::ItemsController < ApplicationController
       available: true
     )
     if @item.save
-      eval(params[:tag_ids]).each do |tag|
-        ItemTag.create(item_id: @item.id, tag_id: tag);
+      params[:tag_ids].each do |tag_id|
+        ItemTag.create(item_id: @item.id, tag_id: tag_id);
       end
       render "show.json.jb"
     else
@@ -39,6 +39,12 @@ class Api::ItemsController < ApplicationController
       @item.available = params[:available] || @item.available
 
       if @item.save
+        if params[:tag_ids]
+          @item.item_tags.destroy_all
+          params[:tag_ids].each do |tag_id|
+            ItemTag.create(item_id: @item.id, tag_id: tag_id);
+          end
+        end
         render "show.json.jb"
       else
         render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
