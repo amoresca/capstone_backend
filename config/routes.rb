@@ -25,6 +25,10 @@ Rails.application.routes.draw do
     # Categories
     get "/categories" => "categories#index"
 
+    # Tags
+    get "/tags" => "tags#index"
+    post "/tags" => "tags#create"
+
     # BorrowRequests
     get "/borrow-requests" => "borrow_requests#index"
     post "/borrow-requests" => "borrow_requests#create"
