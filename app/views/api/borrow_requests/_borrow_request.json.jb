@@ -1,5 +1,6 @@
 {
   id: borrow_request.id,
   status: borrow_request.status,
-  created_at: borrow_request.created_at,
+  read: borrow_request.read,
+  created_at: borrow_request.created_at
 }
