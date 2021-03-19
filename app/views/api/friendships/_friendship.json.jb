@@ -1,4 +1,6 @@
 {
   id: friendship.id,
-  status: friendship.status
+  status: friendship.status,
+  read: friendship.read,
+  created_at: friendship.created_at
 }

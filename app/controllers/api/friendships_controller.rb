@@ -14,6 +14,16 @@ class Api::FriendshipsController < ApplicationController
       status: "pending"
     )
     if @friendship.save
+      ActionCable.server.broadcast "requests_channel", {
+        id: @friendship.id,
+        read: @friendship.read,
+        created_at: @friendship.created_at,
+        requestor: {
+          id: @friendship.requestor.id,
+          first_name: @friendship.requestor.first_name,
+          last_name: @friendship.requestor.last_name,
+        }
+      }  
       render "show.json.jb"
     else
       render json: { errors: @friendship.errors.full_messages }, status: :unprocessable_entity
@@ -23,9 +33,10 @@ class Api::FriendshipsController < ApplicationController
   def update
     @friendship = Friendship.find(params[:id])
     if current_user == @friendship.requestee
-      @friendship.status = "accepted"
+      @friendship.read = params[:read] || @friendship.read
+      @friendship.status = params[:status] || @friendship.status
       if @friendship.save 
-        render json: { message: "Friend request accepted."}
+        render "show.json.jb"
       else
         render json: { errors: @friendship.errors.full_messages }, status: :unprocessable_entity
       end

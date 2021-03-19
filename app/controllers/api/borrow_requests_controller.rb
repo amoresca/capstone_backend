@@ -18,6 +18,21 @@ class Api::BorrowRequestsController < ApplicationController
       status: "pending"
     )
     if @borrow_request.save
+      ActionCable.server.broadcast "requests_channel", {
+        id: @borrow_request.id,
+        read: @borrow_request.read,
+        created_at: @borrow_request.created_at,
+        requestor: {
+          id: @borrow_request.requestor.id,
+          first_name: @borrow_request.requestor.first_name,
+          last_name: @borrow_request.requestor.last_name,
+        },
+        item: {
+          id: @borrow_request.item.id,
+          name: @borrow_request.item.name,
+          available: @borrow_request.item.available
+        }
+      }  
       render "show.json.jb"
     else
       render json: { errors: @borrow_request.errors.full_messages }
@@ -26,8 +41,12 @@ class Api::BorrowRequestsController < ApplicationController
 
   def update
     @borrow_request = BorrowRequest.find(params[:id])
+
     if current_user == @borrow_request.item.user
+
       @borrow_request.status = params[:status] || @borrow_request.status
+      @borrow_request.read = params[:read] || @borrow_request.read
+
       if @borrow_request.save 
         if @borrow_request.status == "accepted"
           @borrow_request.item.available = false
@@ -36,7 +55,7 @@ class Api::BorrowRequestsController < ApplicationController
           @borrow_request.item.available = true
           @borrow_request.item.save
         end
-        render json: { message: "Borrow request #{@borrow_request.status}."}
+        render "show.json.jb"
       else
         render json: { errors: @borrow_request.errors.full_messages }, status: :unprocessable_entity
       end
