@@ -14,6 +14,16 @@ class Api::FriendshipsController < ApplicationController
       status: "pending"
     )
     if @friendship.save
+      ActionCable.server.broadcast "requests_channel", {
+        id: @friendship.id,
+        read: @friendship.read,
+        created_at: @friendship.created_at,
+        requestor: {
+          id: @friendship.requestor.id,
+          first_name: @friendship.requestor.first_name,
+          last_name: @friendship.requestor.last_name,
+        }
+      }  
       render "show.json.jb"
     else
       render json: { errors: @friendship.errors.full_messages }, status: :unprocessable_entity
