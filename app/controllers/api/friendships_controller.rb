@@ -22,7 +22,8 @@ class Api::FriendshipsController < ApplicationController
           id: @friendship.requestor.id,
           first_name: @friendship.requestor.first_name,
           last_name: @friendship.requestor.last_name,
-        }
+        },
+        requestee_username: @friendship.requestee.username
       }  
       render "show.json.jb"
     else

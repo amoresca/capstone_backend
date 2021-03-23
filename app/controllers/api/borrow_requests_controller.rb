@@ -27,6 +27,7 @@ class Api::BorrowRequestsController < ApplicationController
           first_name: @borrow_request.requestor.first_name,
           last_name: @borrow_request.requestor.last_name,
         },
+        requestee_username: @borrow_request.item.user.username,
         item: {
           id: @borrow_request.item.id,
           name: @borrow_request.item.name,
