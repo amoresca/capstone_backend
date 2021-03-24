@@ -1,5 +1,7 @@
 @users.map do |user|
   user_json = render partial: "user.json.jb", locals: { user: user }
-  user_json[:friends] = current_user.friends.include?(user) ? true : false
+  unless user.id == current_user.id
+    user_json[:friends] = current_user.friends.include?(user) ? true : false
+  end
   user_json
 end
