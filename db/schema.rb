@@ -56,15 +56,6 @@ ActiveRecord::Schema.define(version: 2021_03_18_181441) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "notifications", force: :cascade do |t|
-    t.string "request_type"
-    t.integer "request_id"
-    t.integer "user_id"
-    t.boolean "read"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
